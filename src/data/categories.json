@@ -1,16 +1,181 @@
 [
     {
+        "id": "coffees",
+        "icon": "☕",
+        "translations": {
+            "en": {
+                "name": "Coffees"
+            },
+            "el": {
+                "name": "Καφέδες"
+            },
+            "it": {
+                "name": "Caffetteria"
+            }
+        }
+    },
+    {
+        "id": "beverages",
+        "icon": "🍫",
+        "translations": {
+            "en": {
+                "name": "Chocolates & Juices"
+            },
+            "el": {
+                "name": "Σοκολάτες & Χυμοί"
+            },
+            "it": {
+                "name": "Cioccolate & Succhi"
+            }
+        }
+    },
+    {
+        "id": "milkshakes",
+        "icon": "🥤",
+        "translations": {
+            "en": {
+                "name": "Milkshakes"
+            },
+            "el": {
+                "name": "Μιλκσέικ"
+            },
+            "it": {
+                "name": "Frappè e Frullati"
+            }
+        }
+    },
+    {
+        "id": "sandwiches",
+        "icon": "🥪",
+        "translations": {
+            "en": {
+                "name": "Sandwiches & Light Meals"
+            },
+            "el": {
+                "name": "Σάντουιτς & Ελαφριά Γεύματα"
+            },
+            "it": {
+                "name": "Panini & Spuntini"
+            }
+        }
+    },
+    {
+        "id": "crepes-waffles",
+        "icon": "🥞",
+        "translations": {
+            "en": {
+                "name": "Crepes & Waffles"
+            },
+            "el": {
+                "name": "Κρέπες & Βάφλες"
+            },
+            "it": {
+                "name": "Crêpes & Cialde Waffle"
+            }
+        }
+    },
+    {
         "id": "appetizers",
+        "icon": "🍟",
+        "translations": {
+            "en": {
+                "name": "Appetizers & Starters"
+            },
+            "el": {
+                "name": "Ορεκτικά & Μεζέδες"
+            },
+            "it": {
+                "name": "Antipasti & Sfizi"
+            }
+        }
+    },
+    {
+        "id": "salads",
         "icon": "🥗",
         "translations": {
             "en": {
-                "name": "Appetizers"
+                "name": "Salads"
             },
             "el": {
-                "name": "Ορεκτικά"
+                "name": "Σαλάτες"
             },
             "it": {
-                "name": "Antipasti"
+                "name": "Insalatone"
+            }
+        }
+    },
+    {
+        "id": "burgers",
+        "icon": "🍔",
+        "translations": {
+            "en": {
+                "name": "Burgers"
+            },
+            "el": {
+                "name": "Μπέργκερ"
+            },
+            "it": {
+                "name": "Hamburger Artigianali"
+            }
+        }
+    },
+    {
+        "id": "smash-burgers",
+        "icon": "🥩",
+        "translations": {
+            "en": {
+                "name": "Smash Burgers"
+            },
+            "el": {
+                "name": "Σμας μπέργκερ"
+            },
+            "it": {
+                "name": "Smash Burger alla Piastra"
+            }
+        }
+    },
+    {
+        "id": "vegan",
+        "icon": "🌱",
+        "translations": {
+            "en": {
+                "name": "Vegetarian & Fasting"
+            },
+            "el": {
+                "name": "Χορτοφαγικά & Νηστίσιμα"
+            },
+            "it": {
+                "name": "Proposte Vegane & Senza Carne"
+            }
+        }
+    },
+    {
+        "id": "pinsa",
+        "icon": "🍕",
+        "translations": {
+            "en": {
+                "name": "Roman Pinsa"
+            },
+            "el": {
+                "name": "Πίνσα Ρομάνα"
+            },
+            "it": {
+                "name": "Pinsa Romana"
+            }
+        }
+    },
+    {
+        "id": "pasta",
+        "icon": "🍝",
+        "translations": {
+            "en": {
+                "name": "Pasta Dishes"
+            },
+            "el": {
+                "name": "Ζυμαρικά & Μακαρονάδες"
+            },
+            "it": {
+                "name": "Primi Piatti di Pasta"
             }
         }
     },
@@ -22,40 +187,40 @@
                 "name": "Main Courses"
             },
             "el": {
-                "name": "Κύρια Πιάτα"
+                "name": "Κυρίως Πιάτα"
             },
             "it": {
-                "name": "Piatti Principali"
+                "name": "Secondi Piatti"
             }
         }
     },
     {
-        "id": "pasta",
-        "icon": "🍝",
+        "id": "platters",
+        "icon": "🍖",
         "translations": {
             "en": {
-                "name": "Pasta"
+                "name": "Meat Platters (to share)"
             },
             "el": {
-                "name": "Ζυμαρικά"
+                "name": "Ποικιλίες Κρεατικών"
             },
             "it": {
-                "name": "Pasta"
+                "name": "Grigliate Miste da Condividere"
             }
         }
     },
     {
-        "id": "seafood",
-        "icon": "🦞",
+        "id": "super-bowls",
+        "icon": "🥣",
         "translations": {
             "en": {
-                "name": "Seafood"
+                "name": "Yogurt Bowls"
             },
             "el": {
-                "name": "Θαλασσινά"
+                "name": "Μπολ Γιαουρτιού & Φρούτων"
             },
             "it": {
-                "name": "Pesce"
+                "name": "Coppe di Yogurt & Frutta"
             }
         }
     },
@@ -67,25 +232,55 @@
                 "name": "Desserts"
             },
             "el": {
-                "name": "Επιδόρπια"
+                "name": "Γλυκά & Επιδόρπια"
             },
             "it": {
-                "name": "Dolci"
+                "name": "Dolci & Dessert"
             }
         }
     },
     {
-        "id": "beverages",
-        "icon": "🍹",
+        "id": "ice-cream",
+        "icon": "🍨",
         "translations": {
             "en": {
-                "name": "Beverages"
+                "name": "Ice Cream Scoops"
             },
             "el": {
-                "name": "Ποτά"
+                "name": "Παγωτά Μπάλα"
             },
             "it": {
-                "name": "Bevande"
+                "name": "Gelato Artigianale"
+            }
+        }
+    },
+    {
+        "id": "soft-drinks",
+        "icon": "🥤",
+        "translations": {
+            "en": {
+                "name": "Soft Drinks"
+            },
+            "el": {
+                "name": "Αναψυκτικά"
+            },
+            "it": {
+                "name": "Bibite Analcoliche"
+            }
+        }
+    },
+    {
+        "id": "beers-drinks",
+        "icon": "🍺",
+        "translations": {
+            "en": {
+                "name": "Beers & Drinks"
+            },
+            "el": {
+                "name": "Μπύρες & Ποτά"
+            },
+            "it": {
+                "name": "Birre & Alcolici"
             }
         }
     }
