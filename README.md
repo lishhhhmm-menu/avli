@@ -41,6 +41,17 @@ Open `src/components/LanguageSwitcher.tsx` (lines 14-18) and reorder the `langua
 ## 📦 Deployment
 This app is ready for **GitHub Pages**. Push to `main` and the included workflow will handle the rest.
 
+## 🔄 Sync with Demo Repository
+
+To rebase another repository on this main branch, use the following commands:
+
+```bash
+git remote add demo https://github.com/lishhhhmm-menu/demo.git
+git fetch demo
+git rebase demo/main
+git push --force-with-lease # optional
+```
+
 ## License
 Copyright © 2026. All Rights Reserved.
 This software is proprietary and may not be copied, modified, or distributed without explicit permission.
