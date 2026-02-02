@@ -135,21 +135,8 @@
 .order-content {
     flex: 1;
     overflow-y: auto;
-    scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
-}
-
-/* Hide scrollbar on touch devices (mobile/tablet) where native scrolling is intuitive */
-@media (hover: none) and (pointer: coarse) {
-    .order-content::-webkit-scrollbar {
-        display: none;
-    }
-
-    .order-content {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
 }
 
 .empty-order {
@@ -180,6 +167,7 @@
     padding: var(--space-md);
     background: var(--bg-primary);
     overflow-y: auto;
+    scrollbar-width: thin;
 }
 
 .order-category-group {

@@ -7,10 +7,6 @@
     scrollbar-width: none;
 }
 
-.category-filter::-webkit-scrollbar {
-    display: none;
-}
-
 .category-btn {
     display: flex;
     flex-direction: column;
