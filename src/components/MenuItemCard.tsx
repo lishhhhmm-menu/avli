@@ -9,6 +9,7 @@ interface MenuItemCardProps {
     onRemove: (item: MenuItem) => void;
     t: Translations;
     onPreviewImage: (url: string | null, title?: string) => void;
+    enableBasket: boolean;
 }
 
 const MenuItemCard: React.FC<MenuItemCardProps> = ({
@@ -17,10 +18,11 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     onAdd,
     onRemove,
     t,
-    onPreviewImage
+    onPreviewImage,
+    enableBasket
 }) => {
     return (
-        <div className={`menu-card ${quantity > 0 ? 'in-order' : ''}`}>
+        <div className={`menu-card ${enableBasket && quantity > 0 ? 'in-order' : ''} ${!enableBasket ? 'view-only' : ''}`}>
             <div className="menu-card-content">
                 <h3
                     className="menu-item-name"
@@ -44,37 +46,39 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                 <div className="menu-card-footer">
                     <span className="menu-item-price">{item.price.toFixed(2)} €</span>
 
-                    {quantity > 0 ? (
-                        <div className="quantity-controls"
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onTouchStart={(e) => e.stopPropagation()}
-                        >
-                            <button
-                                className="qty-btn minus"
-                                onClick={(e) => { e.stopPropagation(); onRemove(item); }}
-                                aria-label="Decrease quantity"
+                    {enableBasket && (
+                        quantity > 0 ? (
+                            <div className="quantity-controls"
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onTouchStart={(e) => e.stopPropagation()}
                             >
-                                −
-                            </button>
-                            <span className="qty-display">{quantity}</span>
+                                <button
+                                    className="qty-btn minus"
+                                    onClick={(e) => { e.stopPropagation(); onRemove(item); }}
+                                    aria-label="Decrease quantity"
+                                >
+                                    −
+                                </button>
+                                <span className="qty-display">{quantity}</span>
+                                <button
+                                    className="qty-btn plus"
+                                    onClick={(e) => { e.stopPropagation(); onAdd(item); }}
+                                    aria-label="Increase quantity"
+                                >
+                                    +
+                                </button>
+                            </div>
+                        ) : (
                             <button
-                                className="qty-btn plus"
+                                className="add-btn"
                                 onClick={(e) => { e.stopPropagation(); onAdd(item); }}
-                                aria-label="Increase quantity"
+                                onMouseDown={(e) => e.stopPropagation()}
+                                onTouchStart={(e) => e.stopPropagation()}
+                                aria-label="Add to order"
                             >
-                                +
+                                {t.add}
                             </button>
-                        </div>
-                    ) : (
-                        <button
-                            className="add-btn"
-                            onClick={(e) => { e.stopPropagation(); onAdd(item); }}
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onTouchStart={(e) => e.stopPropagation()}
-                            aria-label="Add to order"
-                        >
-                            {t.add}
-                        </button>
+                        )
                     )}
                 </div>
             </div>

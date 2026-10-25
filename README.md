@@ -29,8 +29,19 @@ Open `src/index.css` and change the `--theme-color` HEX code. The entire app (ba
 }
 ```
 
+### Configuration & Feature Toggles
+App-wide settings can be configured in `src/data/config.json`:
+*   **`enableBasket`**: Set to `true` to enable the basket / ordering system (quantity controls on each item and the bottom order bar/drawer), or `false` for a digital view-only menu.
+
+```json
+{
+  "enableBasket": true
+}
+```
+
 ### Edit Menu & Categories
 Data is stored in `src/data/`:
+*   **`config.json`**: Configure app features (e.g. toggle the basket on/off).
 *   **`items.json`**: Add/remove dishes, prices, and descriptions.
 *   **`categories.json`**: Manage menu categories.
 *   **`translations.ts`**: Update the Restaurant Name and UI texts.

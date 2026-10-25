@@ -1,5 +1,8 @@
 .app {
     min-height: 100vh;
+}
+
+.app.has-basket {
     padding-bottom: calc(2.5rem + 2 * var(--space-md));
 }
 

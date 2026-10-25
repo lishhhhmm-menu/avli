@@ -88,6 +88,9 @@ docker exec -it restaurant-menu-dev sh
 ### Change Colors
 `src/index.css` → `:root` variables
 
+### Toggle Basket / Ordering Feature
+`src/data/config.json` → Set `"enableBasket": true` or `false`
+
 ### Update Favicon
 Replace `public/menu-icon.svg`
 

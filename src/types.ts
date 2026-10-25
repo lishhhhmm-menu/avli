@@ -22,6 +22,10 @@ export type Category = {
 
 export type Language = 'en' | 'el' | 'it';
 
+export interface AppConfig {
+    enableBasket: boolean;
+}
+
 export interface Translations {
     restaurantName: string;
     restaurantTagline: string;

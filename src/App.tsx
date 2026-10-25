@@ -5,12 +5,15 @@ import MyOrder from './components/MyOrder';
 import LanguageSwitcher from './components/LanguageSwitcher';
 import { categories, menuItems } from './data/menuData';
 import { translations } from './data/translations';
+import { appConfig } from './data/config';
 import { MenuItem, OrderItem, Language } from './types';
 import './App.css';
 
 function App() {
     const [categoryVisibility, setCategoryVisibility] = useState<Record<string, number>>({});
     const [orderItems, setOrderItems] = useState<OrderItem[]>(() => {
+        if (!appConfig.enableBasket) return [];
+
         try {
             const savedOrder = localStorage.getItem('restaurant-menu-order');
             if (!savedOrder) return [];
@@ -66,6 +69,8 @@ function App() {
 
     // Save only necessary data (ID and quantity) to version control the order
     useEffect(() => {
+        if (!appConfig.enableBasket) return;
+
         const orderToSave = orderItems.map(item => ({
             id: item.menuItem.id,
             quantity: item.quantity
@@ -146,7 +151,7 @@ function App() {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('resize', handleScroll);
         };
-    }, [categories]);
+    }, [categories, appConfig.enableBasket]);
 
     const t = translations[language];
 
@@ -226,7 +231,7 @@ function App() {
     const totalItemCount = orderItems.reduce((sum, item) => sum + item.quantity, 0);
 
     return (
-        <div className="app">
+        <div className={`app ${appConfig.enableBasket ? 'has-basket' : 'no-basket'}`}>
             {/* Restaurant Title */}
             <div className="restaurant-header">
                 <div className="restaurant-title-section">
@@ -267,6 +272,7 @@ function App() {
                                         onRemove={removeItemFromOrder}
                                         t={t}
                                         onPreviewImage={handlePreviewImage}
+                                        enableBasket={appConfig.enableBasket}
                                     />
                                 ))}
                             </div>
@@ -276,31 +282,35 @@ function App() {
 
             </main>
 
-            {/* Fixed Bottom Container - shows empty message or order button */}
-            <div className="bottom-container">
-                {totalItemCount === 0 ? (
-                    <div className="empty-order-message">
-                        <p>{t.emptyOrder}</p>
-                    </div>
-                ) : (
-                    <button className="order-btn" onClick={() => setIsOrderOpen(true)}>
-                        <span>{t.myOrder}</span>
-                        <span className="order-badge">{totalItemCount}</span>
-                    </button>
-                )}
-            </div>
+            {/* Fixed Bottom Container - shows empty message or order button (only when basket is enabled) */}
+            {appConfig.enableBasket && (
+                <div className="bottom-container">
+                    {totalItemCount === 0 ? (
+                        <div className="empty-order-message">
+                            <p>{t.emptyOrder}</p>
+                        </div>
+                    ) : (
+                        <button className="order-btn" onClick={() => setIsOrderOpen(true)}>
+                            <span>{t.myOrder}</span>
+                            <span className="order-badge">{totalItemCount}</span>
+                        </button>
+                    )}
+                </div>
+            )}
 
-            {/* Order Panel */}
-            <MyOrder
-                items={orderItems}
-                isOpen={isOrderOpen}
-                onClose={() => setIsOrderOpen(false)}
-                onIncreaseQuantity={increaseQuantity}
-                onDecreaseQuantity={decreaseQuantity}
-                onClearAll={clearAllItems}
-                t={t}
-                onPreviewImage={handlePreviewImage}
-            />
+            {/* Order Panel (only when basket is enabled) */}
+            {appConfig.enableBasket && (
+                <MyOrder
+                    items={orderItems}
+                    isOpen={isOrderOpen}
+                    onClose={() => setIsOrderOpen(false)}
+                    onIncreaseQuantity={increaseQuantity}
+                    onDecreaseQuantity={decreaseQuantity}
+                    onClearAll={clearAllItems}
+                    t={t}
+                    onPreviewImage={handlePreviewImage}
+                />
+            )}
 
             {/* Image Preview Modal */}
             {viewingImage && (
