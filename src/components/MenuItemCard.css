@@ -116,14 +116,15 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    height: 36px;
+    height: 28px;
     background: transparent;
     border: none;
     padding: 0;
     box-sizing: border-box;
 }
 
-.qty-btn {
+.qty-btn,
+.add-btn {
     width: 28px;
     height: 28px;
     flex-shrink: 0;
@@ -139,13 +140,17 @@
     cursor: pointer;
     transition: background var(--transition-fast);
     line-height: 1;
+    box-sizing: border-box;
+    padding: 0;
 }
 
-.qty-btn:hover {
+.qty-btn:hover,
+.add-btn:hover {
     background: var(--accent-hover);
 }
 
-.qty-btn:active {
+.qty-btn:active,
+.add-btn:active {
     transform: scale(0.95);
 }
 
@@ -157,38 +162,6 @@
     color: var(--accent-primary);
     user-select: none;
     font-variant-numeric: tabular-nums;
-}
-
-/* Add Button (Circular "+") */
-.add-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: white;
-    color: var(--accent-primary);
-    border: 2px solid var(--accent-primary);
-    font-size: 1.25rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    box-sizing: border-box;
-    line-height: 1;
-    flex-shrink: 0;
-}
-
-.add-btn:hover {
-    background: var(--accent-primary);
-    color: white;
-    box-shadow: var(--shadow-sm);
-    transform: scale(1.05);
-}
-
-.add-btn:active {
-    transform: scale(0.95);
 }
 
 @media (max-width: 640px) {
@@ -216,19 +189,15 @@
         font-size: 0.8125rem;
     }
 
-    .add-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 1.125rem;
-    }
-
     .quantity-controls {
-        height: 32px;
+        height: 26px;
     }
 
-    .qty-btn {
+    .qty-btn,
+    .add-btn {
         width: 26px;
         height: 26px;
+        font-size: 0.9375rem;
     }
 }
 
