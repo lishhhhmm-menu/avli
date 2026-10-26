@@ -1,5 +1,5 @@
 import React from 'react';
-import { OrderItem, Translations } from '../types';
+import { MenuItem, OrderItem, Translations } from '../types';
 import MenuItemCard from './MenuItemCard';
 
 interface OrderPanelItemProps {

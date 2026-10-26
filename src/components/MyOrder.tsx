@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { OrderItem, Translations } from '../types';
+import { MenuItem, OrderItem, Translations } from '../types';
 import { categories } from '../data/menuData';
 import MenuItemCard from './MenuItemCard';
 import './MyOrder.css';
