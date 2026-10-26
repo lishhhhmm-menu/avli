@@ -10,6 +10,7 @@ interface MenuItemCardProps {
     t: Translations;
     onPreviewImage: (url: string | null, title?: string) => void;
     enableBasket: boolean;
+    inBasket?: boolean;
 }
 
 const MenuItemCard: React.FC<MenuItemCardProps> = ({
@@ -19,10 +20,13 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     onRemove,
     t,
     onPreviewImage,
-    enableBasket
+    enableBasket,
+    inBasket = false
 }) => {
+    const isCardInOrder = enableBasket && quantity > 0 && !inBasket;
+
     return (
-        <div className={`menu-card ${enableBasket && quantity > 0 ? 'in-order' : ''} ${!enableBasket ? 'view-only' : ''} ${item.image ? 'has-image' : ''}`}>
+        <div className={`menu-card ${isCardInOrder ? 'in-order' : ''} ${!enableBasket ? 'view-only' : ''} ${item.image ? 'has-image' : ''} ${inBasket ? 'in-basket' : ''}`}>
             <div className="menu-card-content">
                 <h3 className="menu-item-name">
                     <span className="menu-item-title-text">{t.menuItems[item.name]}</span>

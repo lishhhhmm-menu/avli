@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { OrderItem, Translations } from '../types';
 import { categories } from '../data/menuData';
-import OrderPanelItem from './OrderPanelItem';
+import MenuItemCard from './MenuItemCard';
 import './MyOrder.css';
 
 interface MyOrderProps {
@@ -79,13 +79,16 @@ const MyOrder: React.FC<MyOrderProps> = ({
                                             </h3>
                                             <div className="category-items-list">
                                                 {categoryItems.map((item) => (
-                                                    <OrderPanelItem
+                                                    <MenuItemCard
                                                         key={item.menuItem.id}
-                                                        item={item}
+                                                        item={item.menuItem}
+                                                        quantity={item.quantity}
+                                                        onAdd={(menuItem) => onIncreaseQuantity(menuItem.id)}
+                                                        onRemove={(menuItem) => onDecreaseQuantity(menuItem.id)}
                                                         t={t}
-                                                        onIncrease={onIncreaseQuantity}
-                                                        onDecrease={onDecreaseQuantity}
                                                         onPreviewImage={onPreviewImage}
+                                                        enableBasket={true}
+                                                        inBasket={true}
                                                     />
                                                 ))}
                                             </div>
