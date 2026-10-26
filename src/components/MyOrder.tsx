@@ -12,7 +12,7 @@ interface MyOrderProps {
     onDecreaseQuantity: (itemId: string) => void;
     onClearAll: () => void;
     t: Translations;
-    onPreviewImage: (url: string | null, title?: string) => void;
+    onPreviewImage: (item: MenuItem) => void;
 }
 
 const MyOrder: React.FC<MyOrderProps> = ({

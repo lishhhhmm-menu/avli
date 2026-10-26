@@ -45,34 +45,42 @@ function App() {
         const savedLanguage = localStorage.getItem('restaurant-menu-language');
         return (savedLanguage as Language) || 'el';
     });
-    const [viewingImage, setViewingImage] = useState<{ url: string; title: string; } | null>(null);
+    const [previewItem, setPreviewItem] = useState<MenuItem | null>(null);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
-    const handlePreviewImage = (url: string | null, title?: string) => {
-        if (url) {
-            setViewingImage({ url, title: title || '' });
+    const handlePreviewImage = (item: MenuItem | null) => {
+        if (item) {
+            setPreviewItem(item);
+            setIsPreviewOpen(true);
         } else {
-            setViewingImage(null);
+            setIsPreviewOpen(false);
         }
     };
 
-    // Prevent scrolling and listen for Escape key when image preview is open
+    const closePreview = () => {
+        setIsPreviewOpen(false);
+    };
+
+    // Prevent scrolling and listen for Escape key when preview is open
     useEffect(() => {
-        if (viewingImage) {
+        if (isPreviewOpen) {
             document.body.style.overflow = 'hidden';
             const handleKeyDown = (e: KeyboardEvent) => {
                 if (e.key === 'Escape') {
-                    setViewingImage(null);
+                    closePreview();
                 }
             };
             window.addEventListener('keydown', handleKeyDown);
             return () => {
-                document.body.style.overflow = '';
+                if (!isOrderOpen) {
+                    document.body.style.overflow = '';
+                }
                 window.removeEventListener('keydown', handleKeyDown);
             };
-        } else {
+        } else if (!isOrderOpen) {
             document.body.style.overflow = '';
         }
-    }, [viewingImage]);
+    }, [isPreviewOpen, isOrderOpen]);
 
     // Save only necessary data (ID and quantity) to version control the order
     useEffect(() => {
@@ -319,15 +327,96 @@ function App() {
                 />
             )}
 
-            {/* Image Preview Modal */}
-            {viewingImage && (
-                <div className="image-preview-backdrop" onClick={() => setViewingImage(null)}>
-                    <div className="image-preview-container" onClick={(e) => e.stopPropagation()}>
-                        <img src={viewingImage.url} alt={viewingImage.title} className="preview-image" />
-                        <div className="preview-title">{viewingImage.title}</div>
-                    </div>
-                </div>
-            )}
+            {/* Item Image Preview Top Sheet */}
+            <div
+                className={`preview-top-backdrop ${isPreviewOpen ? 'open' : ''}`}
+                onClick={closePreview}
+                aria-hidden={!isPreviewOpen}
+            />
+
+            <div
+                className={`preview-top-sheet ${isPreviewOpen ? 'open' : ''}`}
+                role="dialog"
+                aria-modal="true"
+                aria-label={previewItem ? t.menuItems[previewItem.name] : 'Item preview'}
+            >
+                {previewItem && (
+                    <>
+                        {previewItem.image && (
+                            <div className="preview-sheet-image-wrapper">
+                                <img
+                                    src={previewItem.image}
+                                    alt={t.menuItems[previewItem.name]}
+                                    className="preview-sheet-image"
+                                />
+                            </div>
+                        )}
+
+                        <div className="preview-sheet-body">
+                            <h2 className="preview-sheet-title">{t.menuItems[previewItem.name]}</h2>
+
+                            {previewItem.description && (
+                                <p className="preview-sheet-description">
+                                    {t.menuItems[previewItem.description]}
+                                </p>
+                            )}
+
+                            <div className="preview-sheet-footer">
+                                <span className="preview-sheet-price">
+                                    {previewItem.price.toFixed(2)} €
+                                </span>
+
+                                {appConfig.enableBasket && (
+                                    getItemQuantity(previewItem) > 0 ? (
+                                        <div
+                                            className="quantity-controls"
+                                            onMouseDown={(e) => e.stopPropagation()}
+                                            onTouchStart={(e) => e.stopPropagation()}
+                                        >
+                                            <button
+                                                className="qty-btn minus"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    removeItemFromOrder(previewItem);
+                                                }}
+                                                aria-label="Decrease quantity"
+                                            >
+                                                −
+                                            </button>
+                                            <span className="qty-display">
+                                                {getItemQuantity(previewItem)}
+                                            </span>
+                                            <button
+                                                className="qty-btn plus"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    addItemToOrder(previewItem);
+                                                }}
+                                                aria-label="Increase quantity"
+                                            >
+                                                +
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <button
+                                            className="add-btn"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                addItemToOrder(previewItem);
+                                            }}
+                                            onMouseDown={(e) => e.stopPropagation()}
+                                            onTouchStart={(e) => e.stopPropagation()}
+                                            aria-label={t.add}
+                                        >
+                                            +
+                                        </button>
+                                    )
+                                )}
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
         </div>
     );
 };

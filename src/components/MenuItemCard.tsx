@@ -8,7 +8,7 @@ interface MenuItemCardProps {
     onAdd: (item: MenuItem) => void;
     onRemove: (item: MenuItem) => void;
     t: Translations;
-    onPreviewImage: (url: string | null, title?: string) => void;
+    onPreviewImage: (item: MenuItem) => void;
     enableBasket: boolean;
     inBasket?: boolean;
 }
@@ -79,7 +79,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                     className="menu-card-image-wrapper"
                     onClick={(e) => {
                         e.stopPropagation();
-                        onPreviewImage(item.image!, t.menuItems[item.name]);
+                        onPreviewImage(item);
                     }}
                     role="button"
                     tabIndex={0}
@@ -87,7 +87,7 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                         if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
                             e.stopPropagation();
-                            onPreviewImage(item.image!, t.menuItems[item.name]);
+                            onPreviewImage(item);
                         }
                     }}
                     aria-label={`View photo of ${t.menuItems[item.name]}`}

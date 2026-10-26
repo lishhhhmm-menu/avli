@@ -7,7 +7,7 @@ interface OrderPanelItemProps {
     t: Translations;
     onIncrease: (id: string) => void;
     onDecrease: (id: string) => void;
-    onPreviewImage: (url: string | null, title?: string) => void;
+    onPreviewImage: (item: MenuItem) => void;
 }
 
 const OrderPanelItem: React.FC<OrderPanelItemProps> = ({
