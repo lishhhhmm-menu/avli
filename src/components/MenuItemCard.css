@@ -1,13 +1,17 @@
 .menu-card {
     background: white;
     border-radius: var(--radius-lg);
-    padding: var(--space-md);
+    padding: 0;
     box-shadow: var(--shadow-sm);
     transition: all var(--transition-base);
     border: 2px solid transparent;
     height: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-height: 104px;
 }
 
 .menu-card.in-order {
@@ -17,7 +21,7 @@
 
 .popular-badge {
     position: absolute;
-    top: -8px;
+    top: 8px;
     right: 8px;
     background: linear-gradient(135deg, #FCD34D, #F59E0B);
     color: #78350F;
@@ -29,7 +33,82 @@
     display: flex;
     align-items: center;
     gap: 3px;
-    z-index: 1;
+    z-index: 2;
+}
+
+.menu-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: var(--space-md);
+    box-sizing: border-box;
+}
+
+.menu-item-name {
+    font-family: var(--font-heading);
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.menu-item-title-text {
+    vertical-align: middle;
+}
+
+.menu-item-price {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+}
+
+.menu-item-description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+}
+
+.menu-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-md);
+    padding-top: 0;
+}
+
+/* Image Column (2/5th of the card to the right, full-bleed with no padding) */
+.menu-card-image-wrapper {
+    flex: 0 0 40%;
+    width: 40%;
+    min-width: 90px;
+    max-width: 180px;
+    align-self: stretch;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--bg-accent);
+    border-left: 1px solid var(--border-light);
+    border-top-right-radius: calc(var(--radius-lg) - 2px);
+    border-bottom-right-radius: calc(var(--radius-lg) - 2px);
+    flex-shrink: 0;
+}
+
+.menu-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
 /* Quantity Controls Container */
@@ -81,54 +160,7 @@
     font-variant-numeric: tabular-nums;
 }
 
-.menu-card-content {
-    margin-top: auto;
-}
-
-.menu-card-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    height: 100%;
-}
-
-.menu-item-name {
-    font-family: var(--font-heading);
-    font-size: 1.375rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin: 0;
-    line-height: 1.2;
-}
-
-.menu-item-title-text {
-    vertical-align: middle;
-}
-
-.menu-item-price {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    font-variant-numeric: tabular-nums;
-}
-
-.menu-item-description {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    line-height: 1.4;
-    margin: 0;
-    flex: 1;
-}
-
-.menu-card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: var(--space-md);
-    padding-top: 0;
-}
-
-/* Add Button - Less dominant */
+/* Add Button */
 .add-btn {
     display: flex;
     align-items: center;
@@ -159,16 +191,25 @@
     transform: scale(0.98);
 }
 
-
-
-
 @media (max-width: 640px) {
     .menu-card {
-        padding: var(--space-md);
+        padding: 0;
+        gap: 0;
+    }
+
+    .menu-card-content {
+        padding: 14px;
+    }
+
+    .menu-card-image-wrapper {
+        flex: 0 0 40%;
+        width: 40%;
+        min-width: 90px;
+        max-width: 140px;
     }
 
     .menu-item-name {
-        font-size: 1.25rem;
+        font-size: 1.15rem;
     }
 
     .menu-item-description {
@@ -177,7 +218,17 @@
 
     .add-btn {
         font-size: 0.8125rem;
-        padding: 0 14px;
+        padding: 0 12px;
+        height: 32px;
+    }
+
+    .quantity-controls {
+        height: 32px;
+    }
+
+    .qty-btn {
+        width: 26px;
+        height: 26px;
     }
 }
 

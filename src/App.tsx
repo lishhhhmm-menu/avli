@@ -55,16 +55,23 @@ function App() {
         }
     };
 
-    // Prevent scrolling when image preview is open
+    // Prevent scrolling and listen for Escape key when image preview is open
     useEffect(() => {
         if (viewingImage) {
             document.body.style.overflow = 'hidden';
+            const handleKeyDown = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                    setViewingImage(null);
+                }
+            };
+            window.addEventListener('keydown', handleKeyDown);
+            return () => {
+                document.body.style.overflow = '';
+                window.removeEventListener('keydown', handleKeyDown);
+            };
         } else {
             document.body.style.overflow = '';
         }
-        return () => {
-            document.body.style.overflow = '';
-        };
     }, [viewingImage]);
 
     // Save only necessary data (ID and quantity) to version control the order

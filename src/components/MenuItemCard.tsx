@@ -22,23 +22,10 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
     enableBasket
 }) => {
     return (
-        <div className={`menu-card ${enableBasket && quantity > 0 ? 'in-order' : ''} ${!enableBasket ? 'view-only' : ''}`}>
+        <div className={`menu-card ${enableBasket && quantity > 0 ? 'in-order' : ''} ${!enableBasket ? 'view-only' : ''} ${item.image ? 'has-image' : ''}`}>
             <div className="menu-card-content">
-                <h3
-                    className="menu-item-name"
-                    onClick={() => item.image && onPreviewImage(item.image, t.menuItems[item.name])}
-                    style={{ cursor: item.image ? 'pointer' : 'inherit' }}
-                >
+                <h3 className="menu-item-name">
                     <span className="menu-item-title-text">{t.menuItems[item.name]}</span>
-                    {item.image && (
-                        <span className="image-icon-indicator" aria-label="View image">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                                <polyline points="21 15 16 10 5 21"></polyline>
-                            </svg>
-                        </span>
-                    )}
                 </h3>
 
                 <p className="menu-item-description">{t.menuItems[item.description]}</p>
@@ -82,6 +69,35 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                     )}
                 </div>
             </div>
+
+            {item.image && (
+                <div
+                    className="menu-card-image-wrapper"
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onPreviewImage(item.image!, t.menuItems[item.name]);
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            onPreviewImage(item.image!, t.menuItems[item.name]);
+                        }
+                    }}
+                    aria-label={`View photo of ${t.menuItems[item.name]}`}
+                    title={t.menuItems[item.name]}
+                >
+                    <img
+                        src={item.image}
+                        alt={t.menuItems[item.name]}
+                        className="menu-card-image"
+                        loading="lazy"
+                        decoding="async"
+                    />
+                </div>
+            )}
         </div>
     );
 };
