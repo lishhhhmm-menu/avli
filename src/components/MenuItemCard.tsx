@@ -61,9 +61,9 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
                                 onClick={(e) => { e.stopPropagation(); onAdd(item); }}
                                 onMouseDown={(e) => e.stopPropagation()}
                                 onTouchStart={(e) => e.stopPropagation()}
-                                aria-label="Add to order"
+                                aria-label={t.add}
                             >
-                                {t.add}
+                                +
                             </button>
                         )
                     )}
