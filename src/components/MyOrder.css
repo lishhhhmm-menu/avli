@@ -14,8 +14,7 @@ dialog.my-order {
     padding: 0;
     background: var(--bg-secondary);
     border-radius: 0;
-    border: 1px solid var(--border-light);
-    border-top: none;
+    border: none;
     box-shadow: var(--sheet-shadow);
     max-height: 80vh;
     height: auto;
@@ -67,8 +66,7 @@ dialog.my-order.open::backdrop {
         max-height: 80vh;
         height: auto;
         border-radius: 0;
-        border: 1px solid var(--border-light);
-        border-top: none;
+        border: none;
         box-shadow: var(--sheet-shadow);
         transform: translateX(-50%) translateY(-100%) !important;
     }
@@ -88,7 +86,7 @@ dialog.my-order.open::backdrop {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: var(--space-lg);
+    padding: var(--space-md);
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-light);
     flex-shrink: 0;
@@ -118,32 +116,6 @@ dialog.my-order.open::backdrop {
     border-radius: var(--radius-full);
     animation: scaleIn 0.3s var(--transition-base);
     font-variant-numeric: tabular-nums;
-}
-
-.close-btn {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    border-radius: var(--radius-sm);
-    font-size: 1.5rem;
-    color: var(--text-muted);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    line-height: 1;
-}
-
-.close-btn:hover {
-    background: var(--bg-accent);
-    color: var(--text-primary);
-    transform: scale(1.1);
-}
-
-.close-btn:active {
-    transform: scale(0.95);
 }
 
 .order-content {
@@ -206,7 +178,6 @@ dialog.my-order.open::backdrop {
     align-items: center;
     gap: var(--space-sm);
     letter-spacing: 0.05em;
-    border-bottom: none;
 }
 
 .category-items-list {
@@ -222,7 +193,6 @@ dialog.my-order.open::backdrop {
     padding: var(--space-md);
     background: var(--bg-secondary);
     border-top: 1px solid var(--border-light);
-    border-radius: 0;
     flex-shrink: 0;
 }
 
@@ -244,13 +214,6 @@ dialog.my-order.open::backdrop {
     border: 1px solid var(--border-light);
     height: 40px;
     box-sizing: border-box;
-}
-
-.total-label {
-    font-family: var(--font-heading);
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--text-primary);
 }
 
 .total-amount {
@@ -279,21 +242,8 @@ dialog.my-order.open::backdrop {
 }
 
 .clear-all-btn:hover {
-    background: #FEE2E2;
-    border-color: #DC2626;
-    color: #DC2626;
+    background: var(--danger-light);
+    border-color: var(--danger);
+    color: var(--danger);
 }
 
-.order-note {
-    padding: var(--space-md);
-    background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
-    border-radius: var(--radius-md);
-    text-align: center;
-}
-
-.order-note p {
-    margin: 0;
-    font-size: 0.9375rem;
-    color: #1E40AF;
-    line-height: 1.5;
-}

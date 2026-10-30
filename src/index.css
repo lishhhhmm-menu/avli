@@ -32,6 +32,8 @@
   /* Semantic */
   --success: #10B981;
   --success-light: #D1FAE5;
+  --danger: #DC2626;
+  --danger-light: #FEE2E2;
 
   /* Spacing */
   --space-xs: 0.25rem;
