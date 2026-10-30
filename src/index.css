@@ -23,6 +23,12 @@
   --border-light: hsl(from var(--theme-color) h 10% 90%);
   --border-medium: hsl(from var(--theme-color) h 10% 80%);
 
+  /* Derived Overlays & Sheet Shadows */
+  --backdrop-bg: hsl(from var(--theme-color) h 35% 12% / 0.6);
+  --sheet-shadow: 0 -8px 32px hsl(from var(--theme-color) h s l / 0.2), 0 -2px 8px hsl(from var(--theme-color) h s l / 0.1);
+  --card-image-shadow: 4px 0 24px hsl(from var(--theme-color) h s l / 0.07);
+  --preview-image-shadow: 0 -4px 24px hsl(from var(--theme-color) h s l / 0.07);
+
   /* Semantic */
   --success: #10B981;
   --success-light: #D1FAE5;
@@ -148,13 +154,13 @@ html {
 
 @keyframes scaleIn {
   from {
-    transform: scale(0.95);
     opacity: 0;
+    transform: scale(0.95);
   }
 
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
