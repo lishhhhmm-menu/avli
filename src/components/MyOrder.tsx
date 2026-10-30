@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MenuItem, OrderItem, Translations } from '../types';
 import { categories } from '../data/menuData';
 import MenuItemCard from './MenuItemCard';
@@ -25,8 +25,37 @@ const MyOrder: React.FC<MyOrderProps> = ({
     t,
     onPreviewImage
 }) => {
+    const dialogRef = useRef<HTMLDialogElement>(null);
+    const [isAnimateIn, setIsAnimateIn] = useState(false);
     const totalPrice = items.reduce((sum, item) => sum + (item.menuItem.price * item.quantity), 0);
     const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+
+    // Sync native <dialog> state with isOpen and trigger entry animation
+    useEffect(() => {
+        const dialog = dialogRef.current;
+        if (!dialog) return;
+
+        if (isOpen) {
+            if (!dialog.open) {
+                dialog.showModal();
+            }
+            // Ensure the initial closed transform is painted before transitioning in
+            const raf = requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setIsAnimateIn(true);
+                });
+            });
+            return () => cancelAnimationFrame(raf);
+        } else {
+            setIsAnimateIn(false);
+            if (dialog.open) {
+                const timer = setTimeout(() => {
+                    dialog.close();
+                }, 400);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [isOpen]);
 
     // Prevent body scroll when panel is open
     useEffect(() => {
@@ -43,11 +72,21 @@ const MyOrder: React.FC<MyOrderProps> = ({
     }, [isOpen]);
 
     return (
-        <>
-            <div className={`order-panel-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose} />
-
-            <div className={`my-order ${isOpen ? 'open' : ''}`}>
-                <div className="order-header">
+        <dialog
+            ref={dialogRef}
+            className={`my-order ${isAnimateIn ? 'open' : ''}`}
+            onClick={(e) => {
+                if (e.target === dialogRef.current) {
+                    onClose();
+                }
+            }}
+            onCancel={(e) => {
+                e.preventDefault();
+                onClose();
+            }}
+            aria-label={t.myOrder}
+        >
+            <div className="order-header">
                     <div className="order-title-section">
                         <h2 className="order-title">{t.myOrder}</h2>
                         {totalItems > 0 && (
@@ -109,8 +148,7 @@ const MyOrder: React.FC<MyOrderProps> = ({
                         </div>
                     </div>
                 )}
-            </div>
-        </>
+        </dialog>
     );
 };
 

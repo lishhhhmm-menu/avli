@@ -197,34 +197,21 @@
     color: var(--accent-primary);
 }
 
-/* Item Image Preview Top Sheet */
-.preview-top-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--backdrop-bg);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 2000;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
+/* Item Image Preview Top Sheet Dialog */
+dialog.preview-top-sheet:not([open]) {
+    display: none;
 }
 
-.preview-top-backdrop.open {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.preview-top-sheet {
+dialog.preview-top-sheet {
     position: fixed;
     top: 0;
     bottom: auto;
     left: 0;
     right: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
     background: var(--bg-secondary);
     border-radius: 0;
     border: none;
@@ -234,17 +221,37 @@
     display: flex;
     flex-direction: column;
     transform: translateY(-100%);
-    transition: transform 0.4s ease, visibility 0s linear 0.4s;
-    z-index: 2001;
-    visibility: hidden;
+    transition: transform 0.4s ease;
     overflow: hidden;
     cursor: default;
+    color: inherit;
 }
 
-.preview-top-sheet.open {
+dialog.preview-top-sheet.open {
     transform: translateY(0);
-    visibility: visible;
-    transition: transform 0.4s ease, visibility 0s linear 0s;
+}
+
+dialog.preview-top-sheet::backdrop {
+    background: var(--backdrop-bg);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: default;
+    -webkit-tap-highlight-color: transparent;
+}
+
+dialog.preview-top-sheet.open::backdrop {
+    opacity: 1;
+}
+
+@starting-style {
+    dialog.preview-top-sheet.open {
+        transform: translateY(-100%);
+    }
+    dialog.preview-top-sheet.open::backdrop {
+        opacity: 0;
+    }
 }
 
 .preview-top-sheet::-webkit-scrollbar {
@@ -351,13 +358,14 @@
 
 /* Desktop styles for preview sheet */
 @media (min-width: 768px) {
-    .preview-top-sheet {
+    dialog.preview-top-sheet {
         top: 0 !important;
         bottom: auto !important;
-        margin-top: 0;
-        left: 50%;
-        right: auto;
+        margin: 0 !important;
+        left: 50% !important;
+        right: auto !important;
         width: 600px;
+        max-width: 600px;
         max-height: 80vh;
         height: auto;
         border-radius: 0;
@@ -366,8 +374,14 @@
         transform: translateX(-50%) translateY(-100%) !important;
     }
 
-    .preview-top-sheet.open {
+    dialog.preview-top-sheet.open {
         transform: translateX(-50%) translateY(0) !important;
+    }
+
+    @starting-style {
+        dialog.preview-top-sheet.open {
+            transform: translateX(-50%) translateY(-100%) !important;
+        }
     }
 }
 

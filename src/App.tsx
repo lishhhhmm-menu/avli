@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import CategoryFilter from './components/CategoryFilter';
 import MenuItemCard from './components/MenuItemCard';
 import MyOrder from './components/MyOrder';
@@ -47,7 +47,36 @@ function App() {
     });
     const [previewItem, setPreviewItem] = useState<MenuItem | null>(null);
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [isPreviewAnimateIn, setIsPreviewAnimateIn] = useState(false);
     const [previewImageRatio, setPreviewImageRatio] = useState<number | null>(null);
+    const previewDialogRef = useRef<HTMLDialogElement>(null);
+
+    // Sync native <dialog> state with isPreviewOpen and trigger entry animation
+    useEffect(() => {
+        const dialog = previewDialogRef.current;
+        if (!dialog) return;
+
+        if (isPreviewOpen) {
+            if (!dialog.open) {
+                dialog.showModal();
+            }
+            // Ensure the initial closed transform is painted before transitioning in
+            const raf = requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    setIsPreviewAnimateIn(true);
+                });
+            });
+            return () => cancelAnimationFrame(raf);
+        } else {
+            setIsPreviewAnimateIn(false);
+            if (dialog.open) {
+                const timer = setTimeout(() => {
+                    dialog.close();
+                }, 400);
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [isPreviewOpen]);
 
     // Precalculate target container aspect-ratio allowing up to 20% width truncation:
     // Container aspect-ratio = 0.8 * (naturalWidth / naturalHeight)
@@ -367,16 +396,18 @@ function App() {
             )}
 
             {/* Item Image Preview Top Sheet */}
-            <div
-                className={`preview-top-backdrop ${isPreviewOpen ? 'open' : ''}`}
-                onClick={closePreview}
-                aria-hidden={!isPreviewOpen}
-            />
-
-            <div
-                className={`preview-top-sheet ${isPreviewOpen ? 'open' : ''} ${previewItem?.image ? 'has-image' : ''}`}
-                role="dialog"
-                aria-modal="true"
+            <dialog
+                ref={previewDialogRef}
+                className={`preview-top-sheet ${isPreviewAnimateIn ? 'open' : ''} ${previewItem?.image ? 'has-image' : ''}`}
+                onClick={(e) => {
+                    if (e.target === previewDialogRef.current) {
+                        closePreview();
+                    }
+                }}
+                onCancel={(e) => {
+                    e.preventDefault();
+                    closePreview();
+                }}
                 aria-label={previewItem ? t.menuItems[previewItem.name] : 'Item preview'}
             >
                 {previewItem && (
@@ -464,7 +495,7 @@ function App() {
                         )}
                     </>
                 )}
-            </div>
+            </dialog>
         </div>
     );
 };
