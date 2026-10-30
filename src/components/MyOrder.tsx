@@ -42,7 +42,6 @@ const MyOrder: React.FC<MyOrderProps> = ({
         };
     }, [isOpen]);
 
-
     return (
         <>
             <div className={`order-panel-backdrop ${isOpen ? 'open' : ''}`} onClick={onClose} />
@@ -66,52 +65,50 @@ const MyOrder: React.FC<MyOrderProps> = ({
                             <p className="empty-subtext">{t.emptyOrderSubtext}</p>
                         </div>
                     ) : (
-                        <>
-                            <div className="order-items">
-                                {categories.map(category => {
-                                    const categoryItems = items.filter(item => item.menuItem.category === category.id);
-                                    if (categoryItems.length === 0) return null;
+                        <div className="order-items">
+                            {categories.map(category => {
+                                const categoryItems = items.filter(item => item.menuItem.category === category.id);
+                                if (categoryItems.length === 0) return null;
 
-                                    return (
-                                        <div key={category.id} className="order-category-group">
-                                            <h3 className="order-category-title">
-                                                {t.categories[category.id] || category.name}
-                                            </h3>
-                                            <div className="category-items-list">
-                                                {categoryItems.map((item) => (
-                                                    <MenuItemCard
-                                                        key={item.menuItem.id}
-                                                        item={item.menuItem}
-                                                        quantity={item.quantity}
-                                                        onAdd={(menuItem) => onIncreaseQuantity(menuItem.id)}
-                                                        onRemove={(menuItem) => onDecreaseQuantity(menuItem.id)}
-                                                        t={t}
-                                                        onPreviewImage={onPreviewImage}
-                                                        enableBasket={true}
-                                                        inBasket={true}
-                                                    />
-                                                ))}
-                                            </div>
+                                return (
+                                    <div key={category.id} className="order-category-group">
+                                        <h3 className="order-category-title">
+                                            {t.categories[category.id] || category.name}
+                                        </h3>
+                                        <div className="category-items-list">
+                                            {categoryItems.map((item) => (
+                                                <MenuItemCard
+                                                    key={item.menuItem.id}
+                                                    item={item.menuItem}
+                                                    quantity={item.quantity}
+                                                    onAdd={(menuItem) => onIncreaseQuantity(menuItem.id)}
+                                                    onRemove={(menuItem) => onDecreaseQuantity(menuItem.id)}
+                                                    t={t}
+                                                    onPreviewImage={onPreviewImage}
+                                                    enableBasket={true}
+                                                    inBasket={true}
+                                                />
+                                            ))}
                                         </div>
-                                    );
-                                })}
-                            </div>
-
-
-                            <div className="order-footer">
-                                <div className="footer-actions">
-                                    <div className="order-total">
-                                        <span className="total-amount">{totalPrice.toFixed(2)} €</span>
                                     </div>
-                                    <button className="clear-all-btn" onClick={onClearAll}>
-                                        {t.clearAll}
-                                    </button>
-                                </div>
-
-                            </div>
-                        </>
+                                );
+                            })}
+                        </div>
                     )}
                 </div>
+
+                {items.length > 0 && (
+                    <div className="order-footer">
+                        <div className="footer-actions">
+                            <button className="clear-all-btn" onClick={onClearAll}>
+                                {t.clearAll}
+                            </button>
+                            <div className="order-total">
+                                <span className="total-amount">{totalPrice.toFixed(2)} €</span>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );

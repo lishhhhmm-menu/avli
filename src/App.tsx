@@ -47,11 +47,50 @@ function App() {
     });
     const [previewItem, setPreviewItem] = useState<MenuItem | null>(null);
     const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [previewImageRatio, setPreviewImageRatio] = useState<number | null>(null);
+
+    // Precalculate target container aspect-ratio allowing up to 20% width truncation:
+    // Container aspect-ratio = 0.8 * (naturalWidth / naturalHeight)
+    useEffect(() => {
+        if (!previewItem?.image) {
+            setPreviewImageRatio(null);
+            return;
+        }
+
+        let isCurrent = true;
+        const img = new Image();
+        img.onload = () => {
+            if (!isCurrent) return;
+            if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                setPreviewImageRatio(0.8 * (img.naturalWidth / img.naturalHeight));
+            }
+        };
+        img.src = previewItem.image;
+
+        if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
+            setPreviewImageRatio(0.8 * (img.naturalWidth / img.naturalHeight));
+        }
+
+        return () => {
+            isCurrent = false;
+        };
+    }, [previewItem?.image]);
 
     const handlePreviewImage = (item: MenuItem | null) => {
         if (item) {
             setPreviewItem(item);
             setIsPreviewOpen(true);
+            if (item.image) {
+                const img = new Image();
+                img.src = item.image;
+                if (img.complete && img.naturalWidth > 0 && img.naturalHeight > 0) {
+                    setPreviewImageRatio(0.8 * (img.naturalWidth / img.naturalHeight));
+                } else {
+                    setPreviewImageRatio(null);
+                }
+            } else {
+                setPreviewImageRatio(null);
+            }
         } else {
             setIsPreviewOpen(false);
         }
@@ -335,23 +374,13 @@ function App() {
             />
 
             <div
-                className={`preview-top-sheet ${isPreviewOpen ? 'open' : ''}`}
+                className={`preview-top-sheet ${isPreviewOpen ? 'open' : ''} ${previewItem?.image ? 'has-image' : ''}`}
                 role="dialog"
                 aria-modal="true"
                 aria-label={previewItem ? t.menuItems[previewItem.name] : 'Item preview'}
             >
                 {previewItem && (
                     <>
-                        {previewItem.image && (
-                            <div className="preview-sheet-image-wrapper">
-                                <img
-                                    src={previewItem.image}
-                                    alt={t.menuItems[previewItem.name]}
-                                    className="preview-sheet-image"
-                                />
-                            </div>
-                        )}
-
                         <div className="preview-sheet-body">
                             <h2 className="preview-sheet-title">{t.menuItems[previewItem.name]}</h2>
 
@@ -414,6 +443,25 @@ function App() {
                                 )}
                             </div>
                         </div>
+
+                        {previewItem.image && (
+                            <div
+                                className="preview-sheet-image-wrapper"
+                                style={previewImageRatio ? ({ '--preview-img-aspect-ratio': `${previewImageRatio}` } as React.CSSProperties) : undefined}
+                            >
+                                <img
+                                    src={previewItem.image}
+                                    alt={t.menuItems[previewItem.name]}
+                                    className="preview-sheet-image"
+                                    onLoad={(e) => {
+                                        const img = e.currentTarget;
+                                        if (img.naturalWidth > 0 && img.naturalHeight > 0) {
+                                            setPreviewImageRatio(0.8 * (img.naturalWidth / img.naturalHeight));
+                                        }
+                                    }}
+                                />
+                            </div>
+                        )}
                     </>
                 )}
             </div>
